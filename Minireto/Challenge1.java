@@ -21,6 +21,8 @@ public class Challenge1 {
         System.out.println(ifExist(val2, list));
         System.out.println(ifExist(val3, list));
         System.out.println(ifExist(val1, list));
+        //el ultimo valor no deberia estar en la lista
+        list.forEach(System.out::println);
     }
 
     public static String chainGeneratorString(String tipo) {
