@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/clients")
@@ -33,6 +36,28 @@ public class ClientController {
     public ResponseEntity<Client> createClient(@RequestBody Client client){
 
         return new ResponseEntity<>(clientService.createClient(client),HttpStatus.CREATED);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Client> updateClient(@PathVariable("id") long id, @RequestBody Client client){
+        Optional<Client> clientData=clientService.getClientById(id);
+        if(clientData.isPresent()){
+            Date editDate = Date.from(Instant.now());
+            Client clientAux=clientData.get();
+            clientAux.setFirstName(client.getFirstName());
+            clientAux.setLastName(client.getLastName());
+            clientAux.setEmail(client.getEmail());
+            clientAux.setBirthdate(client.getBirthdate());
+            clientAux.setIdentification(client.getIdentification());
+            clientAux.setIdentificationType(client.getIdentificationType());
+            clientAux.setEditDate(editDate);
+
+
+            return new ResponseEntity<>(clientService.createClient(clientAux),HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
     }
 
 

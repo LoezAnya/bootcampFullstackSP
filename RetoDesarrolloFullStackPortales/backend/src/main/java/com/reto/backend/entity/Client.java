@@ -3,6 +3,7 @@ package com.reto.backend.entity;
 
 import jakarta.persistence.*;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
@@ -35,12 +36,10 @@ public class Client {
 
 
     @Column(name = "birthdate")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.NONE, fallbackPatterns = { "dd/MM/yyyy" })
-    @Temporal(TemporalType.DATE)
     private Date birthdate;
 
+    @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.NONE, fallbackPatterns = { "dd/MM/yyyy" })
     @Column(name = "creation_date")
     private Date creationDate;
 
@@ -48,7 +47,6 @@ public class Client {
     private String userCreate;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(iso = DateTimeFormat.ISO.NONE, fallbackPatterns = { "dd/MM/yyyy" })
     @Column(name = "edit_date")
     private Date editDate;
 
@@ -62,8 +60,6 @@ public class Client {
 
     @PrePersist
     private void onCreate(){
-        this.creationDate=new Date();
-        this.editDate=new Date();
         this.creationDate=new Date();
     }
 
