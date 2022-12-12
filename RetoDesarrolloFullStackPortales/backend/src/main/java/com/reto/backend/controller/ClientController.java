@@ -11,19 +11,19 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+@CrossOrigin(origins = "http://localhost:8090")
 @RestController
-@RequestMapping("/clients")
+@RequestMapping("/api")
 public class ClientController {
     @Autowired
     ClientService clientService;
 
-    @GetMapping
+    @GetMapping("/clients")
     public ResponseEntity<List<Client>> getClients() {
         return new ResponseEntity<List<Client>>(clientService.getAllClients(), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/clients/{id}")
     public ResponseEntity<Client> getClientById(@PathVariable("id") Long id) {
         return clientService.getClientById(id)
                 .map(client -> new ResponseEntity<>(client, HttpStatus.OK))
@@ -36,7 +36,7 @@ public class ClientController {
         return new ResponseEntity<>(clientService.createClient(client), HttpStatus.CREATED);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/clients/{id}")
     public ResponseEntity<Client> updateClient(@PathVariable("id") long id, @RequestBody Client client) {
         Optional<Client> clientData = clientService.getClientById(id);
         if (clientData.isPresent()) {
@@ -57,7 +57,7 @@ public class ClientController {
 
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/clients/{id}")
     public ResponseEntity deleteClientById(@PathVariable("id") long id) {
         if (clientService.deleteClientById(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
