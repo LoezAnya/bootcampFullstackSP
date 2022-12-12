@@ -1,20 +1,14 @@
 package com.reto.backend.entity;
 
-
 import jakarta.persistence.*;
 
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.format.annotation.DateTimeFormat;
-
-
 
 import java.util.Date;
 
 @Entity
 @Table(name = "clients")
 public class Client {
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +17,7 @@ public class Client {
     private String identificationType;
 
     @Column(name = "identification")
+
     private String identification;
 
     @Column(name = "first_name")
@@ -33,7 +28,6 @@ public class Client {
 
     @Column(name = "email")
     private String email;
-
 
     @Column(name = "birthdate")
     private Date birthdate;
@@ -53,14 +47,13 @@ public class Client {
     @Column(name = "user_edit")
     private String userEdit;
 
-
     public Client() {
 
     }
 
     @PrePersist
-    private void onCreate(){
-        this.creationDate=new Date();
+    private void onCreate() {
+        this.creationDate = new Date();
     }
 
     public Long getId() {
@@ -151,4 +144,3 @@ public class Client {
         this.userEdit = userEdit;
     }
 }
-

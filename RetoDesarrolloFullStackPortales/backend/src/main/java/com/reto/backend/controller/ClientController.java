@@ -23,27 +23,25 @@ public class ClientController {
         return new ResponseEntity<List<Client>>(clientService.getAllClients(), HttpStatus.OK);
     }
 
-
-   @GetMapping("{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Client> getClientById(@PathVariable("id") Long id) {
         return clientService.getClientById(id)
                 .map(client -> new ResponseEntity<>(client, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-
     @PostMapping
-    public ResponseEntity<Client> createClient(@RequestBody Client client){
+    public ResponseEntity<Client> createClient(@RequestBody Client client) {
 
-        return new ResponseEntity<>(clientService.createClient(client),HttpStatus.CREATED);
+        return new ResponseEntity<>(clientService.createClient(client), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable("id") long id, @RequestBody Client client){
-        Optional<Client> clientData=clientService.getClientById(id);
-        if(clientData.isPresent()){
+    public ResponseEntity<Client> updateClient(@PathVariable("id") long id, @RequestBody Client client) {
+        Optional<Client> clientData = clientService.getClientById(id);
+        if (clientData.isPresent()) {
             Date editDate = Date.from(Instant.now());
-            Client clientAux=clientData.get();
+            Client clientAux = clientData.get();
             clientAux.setFirstName(client.getFirstName());
             clientAux.setLastName(client.getLastName());
             clientAux.setEmail(client.getEmail());
@@ -52,20 +50,18 @@ public class ClientController {
             clientAux.setIdentificationType(client.getIdentificationType());
             clientAux.setEditDate(editDate);
 
-
-            return new ResponseEntity<>(clientService.createClient(clientAux),HttpStatus.OK);
-        }else {
+            return new ResponseEntity<>(clientService.createClient(clientAux), HttpStatus.OK);
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
     }
 
-
     @DeleteMapping("{id}")
-    public ResponseEntity deleteClientById(@PathVariable("id") long id){
-        if (clientService.deleteClientById(id)){
+    public ResponseEntity deleteClientById(@PathVariable("id") long id) {
+        if (clientService.deleteClientById(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
