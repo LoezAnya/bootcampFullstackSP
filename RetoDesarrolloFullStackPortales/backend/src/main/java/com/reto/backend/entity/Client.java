@@ -17,7 +17,6 @@ public class Client {
     private String identificationType;
 
     @Column(name = "identification")
-
     private String identification;
 
     @Column(name = "first_name")
