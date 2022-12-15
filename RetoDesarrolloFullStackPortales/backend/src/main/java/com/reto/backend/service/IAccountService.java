@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface IAccountService {
     public Account createAccount(Account account);
     public List<Account> getAllAccountByClientId(Long id);
+
+    //public Optional<Account> getAccountByNumber(String number);
     public List<Account> getAllAccount();
 
     public Optional<Account> getAccountById(Long id);

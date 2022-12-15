@@ -30,7 +30,7 @@ public class ClientController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping
+    @PostMapping("/clients")
     public ResponseEntity<Client> createClient(@RequestBody Client client) {
 
         return new ResponseEntity<>(clientService.createClient(client), HttpStatus.CREATED);
