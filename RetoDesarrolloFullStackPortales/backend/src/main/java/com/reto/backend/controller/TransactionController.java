@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:8090")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/clients/{clientId}/accounts")
 public class TransactionController {
@@ -24,10 +24,6 @@ public class TransactionController {
 
     @Autowired
     TransactionService transactionService;
-
-
-
-
 
     @GetMapping("/{accountId}/transactions")
     public ResponseEntity<List<Transaction>> getAllTransaction(@PathVariable(value = "accountId") Long id) {
@@ -40,8 +36,9 @@ public class TransactionController {
     }
 
     @PostMapping("/{accountId}/transactions")
-    public ResponseEntity<Transaction> createTransaction(@PathVariable(value = "accountId") Long id, @RequestBody Transaction transaction) {
-        Transaction sender ;
+    public ResponseEntity<Transaction> createTransaction(@PathVariable(value = "accountId") Long id,
+                                                         @RequestBody Transaction transaction) {
+        Transaction sender;
         Transaction receiver = new Transaction();
         Date editDate = Date.from(Instant.now());
         if (transaction.getTransaction_type().toLowerCase().equals("consignacion")) {
@@ -58,17 +55,47 @@ public class TransactionController {
             }).orElseThrow(() -> new RuntimeException("Not found" + id));
         }
         if (transaction.getTransaction_type().toLowerCase().equals("retiro")) {
-            sender = accountService.getAccountById(id).map(account -> {
+
+            Optional<Account> opcAccount = accountService.getAccountById(id);
+            if (opcAccount.isPresent()) {
+                Account account = opcAccount.get();
                 BigDecimal balance = new BigDecimal(String.valueOf(account.getAvailable_balance()));
-                account.setAvailable_balance(balance.subtract(transaction.getTransaction_value()));
-                account.setBalance(account.getAvailable_balance());
-                account.setModification_date(editDate);
-                transaction.setAvailable_balance(account.getAvailable_balance());
-                transaction.setAccount(account);
-                transaction.setGmf(BigDecimal.valueOf(0));
-                transaction.setMovement_type("debito");
-                return transactionService.createTransaction(transaction);
-            }).orElseThrow(() -> new RuntimeException("Not found" + id));
+
+                if (account.getAccount_type().toLowerCase().equals("corriente")) {
+                    if (balance.subtract(transaction.getTransaction_value()).compareTo(BigDecimal.valueOf(-3000000)) < 0) {
+
+                    } else {
+                        account.setAvailable_balance(balance.subtract(transaction.getTransaction_value()));
+                        account.setBalance(account.getAvailable_balance());
+                        account.setModification_date(editDate);
+                        transaction.setAvailable_balance(account.getAvailable_balance());
+                        transaction.setAccount(account);
+                        transaction.setGmf(BigDecimal.valueOf(0));
+                        transaction.setMovement_type("debito");
+                        return new ResponseEntity<>(transactionService.createTransaction(transaction), HttpStatus.CREATED);
+                    }
+                } else if (account.getAccount_type().toLowerCase().equals("ahorro")) {
+                    if (balance.subtract(transaction.getTransaction_value()).compareTo(BigDecimal.valueOf(0)) < 0) {
+                        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+                    } else {
+                        account.setAvailable_balance(balance.subtract(transaction.getTransaction_value()));
+                        account.setBalance(account.getAvailable_balance());
+                        account.setModification_date(editDate);
+                        transaction.setAvailable_balance(account.getAvailable_balance());
+                        transaction.setAccount(account);
+                        transaction.setGmf(BigDecimal.valueOf(0));
+                        transaction.setMovement_type("debito");
+                        return new ResponseEntity<>(transactionService.createTransaction(transaction), HttpStatus.CREATED);
+                    }
+
+                } else {
+                    return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+                }
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
+
         }
 
         if (transaction.getTransaction_type().toLowerCase().equals("transferencia")) {
@@ -101,14 +128,16 @@ public class TransactionController {
                     receiver.setMovement_type("credito");
                     receiver.setAccount(accountAuxRec);
                 }
-                transactionService.createTransaction(sender);
+
                 transactionService.createTransaction(receiver);
+                return new ResponseEntity<>(transactionService.createTransaction(sender), HttpStatus.CREATED);
             }
 
-
+        } else {
+            return new ResponseEntity<>(transactionService.createTransaction(transaction),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(transaction, HttpStatus.CREATED);
     }
-
 
 }

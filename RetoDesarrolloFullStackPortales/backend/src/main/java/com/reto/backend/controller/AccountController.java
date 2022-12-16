@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 
-@CrossOrigin(origins = "http://localhost:8090")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/clients")
 public class AccountController {
@@ -21,6 +21,8 @@ public class AccountController {
 
     @Autowired
     ClientService clientService;
+
+    String admin="admin";
     public static String accountNumberGenerator(String type) {
         String chain="";
         if (type.toLowerCase().equals("ahorro")) {
@@ -34,7 +36,7 @@ public class AccountController {
         }
         return chain;
     }
-    String user="Admin";
+
     @GetMapping("{clientId}/accounts")
     public ResponseEntity<List<Account>> getAllAccountByClientId(@PathVariable(value ="clientId") Long clientId){
             if(!accountService.getAllAccountByClientId(clientId).isEmpty()){
@@ -54,10 +56,13 @@ public class AccountController {
             account.setAccount_state("activa");
             account.setAccount_number(accountNumberGenerator(account.getAccount_type()));
             account.setBalance(BigDecimal.valueOf(0));
-            account.setUserCreate(user);
+            account.setUserCreate(admin);
             account.setAvailable_balance(BigDecimal.valueOf(0));
             return accountService.createAccount(account);
         }).orElseThrow(() -> new RuntimeException("Not found " + clientId));
         return new ResponseEntity<>(account1, HttpStatus.CREATED);
     }
+
+
+
 }

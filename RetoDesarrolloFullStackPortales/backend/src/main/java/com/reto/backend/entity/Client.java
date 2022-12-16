@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import org.springframework.data.annotation.CreatedDate;
 
+
 import java.util.Date;
 
 @Entity
@@ -26,6 +27,7 @@ public class Client {
     private String lastName;
 
     @Column(name = "email")
+
     private String email;
 
     @Column(name = "birthdate")
