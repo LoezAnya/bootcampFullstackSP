@@ -63,7 +63,7 @@ public class TransactionController {
 
                 if (account.getAccount_type().toLowerCase().equals("corriente")) {
                     if (balance.subtract(transaction.getTransaction_value()).compareTo(BigDecimal.valueOf(-3000000)) < 0) {
-
+                        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
                     } else {
                         account.setAvailable_balance(balance.subtract(transaction.getTransaction_value()));
                         account.setBalance(account.getAvailable_balance());
