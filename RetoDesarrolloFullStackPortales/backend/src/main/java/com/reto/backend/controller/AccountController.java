@@ -1,6 +1,7 @@
 package com.reto.backend.controller;
 
 import com.reto.backend.entity.Account;
+import com.reto.backend.entity.Client;
 import com.reto.backend.service.AccountService;
 import com.reto.backend.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/api/clients")
+@RequestMapping("/accounts")
 public class AccountController {
     @Autowired
     AccountService accountService;
@@ -22,14 +24,15 @@ public class AccountController {
     @Autowired
     ClientService clientService;
 
-    String admin="admin";
-    public static String accountNumberGenerator(String type) {
-        String chain="";
-        if (type.toLowerCase().equals("ahorro")) {
+    String admin = "admin";
+
+    public static String accountNumberGenerator(Account.Type type) {
+        String chain = "";
+        if (type.equals(Account.Type.SAVING)) {
             Random ran = new Random();
             int randNum = ran.nextInt(99999999) + 10000000;
             return chain = "46" + randNum;
-        } else if (type.toLowerCase().equals("corriente")) {
+        } else if (type.equals(Account.Type.CHECKING)) {
             Random ran = new Random();
             int randNum = ran.nextInt(99999999) + 10000000;
             return chain = "23" + randNum;
@@ -37,32 +40,63 @@ public class AccountController {
         return chain;
     }
 
-    @GetMapping("{clientId}/accounts")
-    public ResponseEntity<List<Account>> getAllAccountByClientId(@PathVariable(value ="clientId") Long clientId){
-            if(!accountService.getAllAccountByClientId(clientId).isEmpty()){
-                return new ResponseEntity<>(accountService.getAllAccountByClientId(clientId), HttpStatus.OK);
-            }else{
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
+    @GetMapping("{clientId}")
+    public ResponseEntity<List<Account>> getAllAccountByClientId(@PathVariable(value = "clientId") Long clientId) {
+        if (!accountService.getAllAccountByClientId(clientId).isEmpty()) {
+            return new ResponseEntity<>(accountService.getAllAccountByClientId(clientId), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
     }
 
 
-    @PostMapping("{clientId}/accounts")
-    public ResponseEntity<Account> createAccount(@PathVariable(value ="clientId") Long clientId, @RequestBody Account account){
-        Account account1=clientService.getClientById(clientId).map(client -> {
-
+    @PostMapping("{clientId}")
+    public ResponseEntity<Account> createAccount(@PathVariable(value = "clientId") Long clientId, @RequestBody Account account) {
+        Optional<Client> clientOptional = clientService.getClientById(clientId);
+        if (clientOptional.isPresent()) {
+            Client client = clientOptional.get();
             account.setClient(client);
-            account.setAccount_state("activa");
+            account.setAccount_state(Account.State.ACTIVE);
             account.setAccount_number(accountNumberGenerator(account.getAccount_type()));
             account.setBalance(BigDecimal.valueOf(0));
             account.setUserCreate(admin);
             account.setAvailable_balance(BigDecimal.valueOf(0));
-            return accountService.createAccount(account);
-        }).orElseThrow(() -> new RuntimeException("Not found " + clientId));
-        return new ResponseEntity<>(account1, HttpStatus.CREATED);
+            return new ResponseEntity<>(accountService.createAccount(account), HttpStatus.CREATED);
+
+
+        }
+        return new ResponseEntity<>(account, HttpStatus.NOT_FOUND);
     }
 
+    @PatchMapping
+    public ResponseEntity<Account> changeState(@RequestBody Account account) {
+        Account.State state = account.getAccount_state();
+        //Optional<Account> accountOptional = accountService.getAccountById(account.getId());
+        Optional<Account> accountOptional = accountService.getAccountByNumber(account.getAccount_number());
+        if (accountOptional.isPresent()) {
+
+            Account account1 = accountOptional.get();
+            account1.setUser_edit(admin);
+            if (state.equals(Account.State.ACTIVE)) {
+                account1.setAccount_state(Account.State.INACTIVE);
+                return new ResponseEntity<>(accountService.createAccount(account1), HttpStatus.CREATED);
+            } else if (state.equals(Account.State.INACTIVE)) {
+                account1.setAccount_state(Account.State.ACTIVE);
+                return new ResponseEntity<>(accountService.createAccount(account1), HttpStatus.CREATED);
+            } else if (state.equals(Account.State.CANCELED)) {
+                if (BigDecimal.valueOf(1).compareTo(account1.getBalance()) == 1) {
+                    account1.setAccount_state(Account.State.CANCELED);
+                    return new ResponseEntity<>(accountService.createAccount(account1), HttpStatus.CREATED);
+                } else {
+                    return new ResponseEntity<>(account1, HttpStatus.NOT_ACCEPTABLE);
+                }
+            }
+        }
+
+
+        return new ResponseEntity<>(account, HttpStatus.NOT_FOUND);
+    }
 
 
 }

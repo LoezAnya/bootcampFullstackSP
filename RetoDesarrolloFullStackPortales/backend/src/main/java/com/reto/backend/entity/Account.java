@@ -17,9 +17,17 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String account_type;
+    private Type account_type;
+    public enum Type {
+        SAVING, CHECKING
+    }
+
     private String account_number;
-    private String account_state;
+    private State account_state;
+
+    public enum State {
+        ACTIVE, INACTIVE, CANCELED
+    }
     
     private BigDecimal balance;
     private BigDecimal available_balance;
@@ -63,11 +71,11 @@ public class Account {
         this.id = id;
     }
 
-    public String getAccount_type() {
+    public Type getAccount_type() {
         return account_type;
     }
 
-    public void setAccount_type(String account_type) {
+    public void setAccount_type(Type account_type) {
         this.account_type = account_type;
     }
 
@@ -79,11 +87,11 @@ public class Account {
         this.account_number = account_number;
     }
 
-    public String getAccount_state() {
+    public State getAccount_state() {
         return account_state;
     }
 
-    public void setAccount_state(String account_state) {
+    public void setAccount_state(State account_state) {
         this.account_state = account_state;
     }
 

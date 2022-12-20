@@ -5,12 +5,18 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { AppModule } from "../../app.module";
 import { ClientsComponent } from '../clients/clients.component';
+import { ClientsDetailsComponent } from '../clients-details/clients-details.component';
+import { AccountsComponent } from '../accounts/accounts.component';
+import { TransactionsComponent } from '../transactions/transactions.component';
 
 
 @NgModule({
     declarations: [
         DashboardComponent,
-        ClientsComponent
+        ClientsComponent,
+        ClientsDetailsComponent,
+        AccountsComponent,
+        TransactionsComponent
     ],
     imports: [
         CommonModule,

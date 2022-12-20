@@ -22,8 +22,8 @@ public class Transaction {
     private String description;
     private BigDecimal available_balance;
     private String movement_type;
-    private Long id_sender_account;
-    private Long id_receptor_account;
+    private String id_sender_account;
+    private String id_receptor_account;
     private String transaction_type;
     private BigDecimal transaction_value;
 
@@ -98,19 +98,19 @@ public class Transaction {
         this.movement_type = movement_type;
     }
 
-    public Long getId_sender_account() {
+    public String getId_sender_account() {
         return id_sender_account;
     }
 
-    public void setId_sender_account(Long id_sender_account) {
+    public void setId_sender_account(String id_sender_account) {
         this.id_sender_account = id_sender_account;
     }
 
-    public Long getId_receptor_account() {
+    public String getId_receptor_account() {
         return id_receptor_account;
     }
 
-    public void setId_receptor_account(Long id_receptor_account) {
+    public void setId_receptor_account(String id_receptor_account) {
         this.id_receptor_account = id_receptor_account;
     }
 

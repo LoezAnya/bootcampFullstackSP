@@ -25,6 +25,11 @@ public class AccountService implements IAccountService {
     }
 
     @Override
+    public Optional<Account> getAccountByNumber(String number) {
+        return accountRepository.findByNumber(number);
+    }
+
+    @Override
     public List<Account> getAllAccount() {
         return null;
     }

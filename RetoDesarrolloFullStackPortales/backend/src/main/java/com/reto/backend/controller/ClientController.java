@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/clients")
 public class ClientController {
     @Autowired
     ClientService clientService;
@@ -45,19 +45,19 @@ public class ClientController {
         return age.getYears() >= LEGAL_AGE;
     }
 
-    @GetMapping("/clients")
+    @GetMapping
     public ResponseEntity<List<Client>> getClients() {
         return new ResponseEntity<List<Client>>(clientService.getAllClients(), HttpStatus.OK);
     }
 
-    @GetMapping("/clients/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Client> getClientById(@PathVariable("id") Long id) {
         return clientService.getClientById(id)
                 .map(client -> new ResponseEntity<>(client, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/clients")
+    @PostMapping
     public ResponseEntity<Client> createClient(@RequestBody Client client) {
 
         if (validateEmail(client.getEmail()) && isAdult(client.getBirthdate())) {
@@ -70,7 +70,7 @@ public class ClientController {
 
     }
 
-    @PutMapping("/clients/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Client> updateClient(@PathVariable("id") long id, @RequestBody Client client) {
         Optional<Client> clientData = clientService.getClientById(id);
         if (clientData.isPresent()) {
@@ -92,13 +92,13 @@ public class ClientController {
 
     }
 
-    @DeleteMapping("/clients/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> deleteClientById(@PathVariable("id") long id) {
 
         List<Account> accounts = accountService.getAllAccountByClientId(id);
         int verification = 0;
         for (Account acc : accounts) {
-            if (acc.getAccount_state().equals("cancelada")) {
+            if (acc.getAccount_state().equals(Account.State.CANCELED)) {
                 verification++;
             }
         }
