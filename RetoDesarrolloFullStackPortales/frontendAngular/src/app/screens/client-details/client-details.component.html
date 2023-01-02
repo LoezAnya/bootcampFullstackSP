@@ -1,0 +1,156 @@
+
+
+
+
+
+<div class="">
+  <div class="container">
+    <div class="">
+      <div class="row gx-5">
+        <div class="col-4">
+          <div class="shadow rounded p-3">
+            <form [formGroup]="clientForm">
+              <div class="mb-3">
+                <label class="form-label" for="identificationType">Type</label>
+
+                <select
+                  class="form-select"
+                  aria-label="Default select example"
+                  formControlName="identificationType"
+                  name="identificationType"
+                >
+                  <option selected>Seleccione una opcion</option>
+                  <option value="NIT">NIT</option>
+                  <option value="CC">Cedula ciudadania</option>
+                  <option value="PASSPORT">Pasaporte</option>
+                  <option value="T.I">Tarjeta Identidad</option>
+                  <option value="CE">Cedula Extranjeria</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="identification"
+                  >Identification</label
+                >
+                <input
+                type="number"
+                  class="form-control"
+                  id="identification"
+                  formControlName="identification"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="firstName">First Name</label>
+                <input class="form-control" formControlName="firstName" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="lastName">Last Name</label>
+                <input class="form-control" formControlName="lastName" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="email">Email</label>
+                <input class="form-control" formControlName="email" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="birthdate">Birthdate</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  formControlName="birthdate"
+                />
+              </div>
+            </form>
+            <div>
+              <button (click)="updateClient()" type="button" class="btn btn-warning me-3">Edit</button>
+              <button (click)="deleteClient()" type="button" class="btn btn-danger">Delete</button>
+            </div>
+            <div *ngIf="editAlert" type="success"  class="alert alert-success" role="alert">
+              Your action was completed successfully!
+            </div>
+
+            <div *ngIf="deleteAlert" type="danger"  class="alert alert-danger" role="alert">
+              Your action was completed successfully!
+            </div>
+            <!-- <form>
+              <div class="mb-3">
+                <label for="id" class="form-label">Id</label>
+                <input
+                  type="text"
+                  id="id"
+                  class="form-control"
+                  [(ngModel)]="client.id"
+                  name="id"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="identificationType" class="form-label">Type</label>
+                <input
+                  type="text"
+                  id="identificationType"
+                  class="form-control"
+                  [(ngModel)]="client.identificationType"
+                  name="identificationType"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="identification" class="form-label">NIT</label>
+                <input
+                  type="text"
+                  id="identification"
+                  class="form-control"
+                  [(ngModel)]="client.identification"
+                  name="identification"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="firstName" class="form-label">First Name</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  class="form-control"
+                  [(ngModel)]="client.firstName"
+                  name="firstName"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  class="form-control"
+                  [(ngModel)]="client.lastName"
+                  name="lastName"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  class="form-control"
+                  [(ngModel)]="client.email"
+                  name="email"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="birthdate" class="form-label">Birthdate</label>
+                <input
+                  type="date"
+                  id="birthdate"
+                  class="form-control"
+                  [(ngModel)]="client.birthdate "
+                  name="birthdate"
+
+                
+                />
+                
+              </div>
+            </form> -->
+          </div>
+        </div>
+        <div class="col-8">
+          <div class="shadow rounded p-3"><app-accounts></app-accounts></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

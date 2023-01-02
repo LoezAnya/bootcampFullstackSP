@@ -84,8 +84,12 @@ public class ClientController {
             clientAux.setIdentificationType(client.getIdentificationType());
             clientAux.setEditDate(editDate);
             clientAux.setUserEdit(admin);
-
-            return new ResponseEntity<>(clientService.createClient(clientAux), HttpStatus.OK);
+            if(isAdult(clientAux.getBirthdate())){
+                return new ResponseEntity<>(clientService.createClient(clientAux), HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(clientAux, HttpStatus.BAD_REQUEST);
+            }
+            
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

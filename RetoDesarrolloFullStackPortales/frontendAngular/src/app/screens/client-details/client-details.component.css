@@ -1,0 +1,15 @@
+.client-account{
+    display:flex;
+}
+
+.client{
+    width: 30%;
+}
+
+.account{
+    width: 70%;
+}
+
+body{
+    width: 100%;
+}
