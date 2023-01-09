@@ -7,16 +7,29 @@ const baseUrl = 'http://localhost:8090/v1/api/clients';
   providedIn: 'root'
 })
 export class ClientServiceService {
- 
+
 
   constructor(private http: HttpClient) { }
 
 
-  getAll(): Observable<Object[]> {
-    return this.http.get<Object[]>(baseUrl);
+  getAll(): Observable<Client[]> {
+    return this.http.get<Client[]>(baseUrl);
   }
 
-  updateState(id: any, data: any): Observable<any> {
+  getById(id: any): Observable<Client> {
+    return this.http.get<Client>(`${baseUrl}/${id}`);
+  }
+
+  updateClient(id: any, data: any): Observable<any> {
     return this.http.put(`${baseUrl}/${id}`, data);
+  }
+
+  createClient(data: Client): Observable<any> {
+    return this.http.post(baseUrl, data);
+  }
+
+
+  deleteClient(id: any, data: any): Observable<any>{
+    return this.http.delete(`${baseUrl}/${id}`, data);
   }
 }

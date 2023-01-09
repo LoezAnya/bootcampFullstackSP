@@ -1,33 +1,34 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
+
 import { ClientsRoutingModule } from './clients-routing.module';
 import { ClientsComponent } from './clients.component';
-import { ClientListComponent } from '../client-list/client-list.component';
-import { ClientDetailsComponent } from '../client-details/client-details.component';
 import { AccountsComponent } from '../accounts/accounts.component';
+import { ClientDetailsComponent } from '../client-details/client-details.component';
 import { TransactionsComponent } from '../transactions/transactions.component';
-import { HttpClient } from '@angular/common/http';
-
-
+import { StoreModule } from '@ngrx/store';
+import { manageClients } from 'src/app/reducers/client-reducer';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ClientCreateComponent } from '../client-create/client-create.component';
+import { interceptorProvider } from 'src/app/interceptor/user-interceptor.service';
 
 
 @NgModule({
   declarations: [
     ClientsComponent,
-    ClientListComponent,
     ClientDetailsComponent,
     AccountsComponent,
     TransactionsComponent,
-
+    ClientCreateComponent
   ],
   imports: [
     CommonModule,
-    ClientsRoutingModule
+    ClientsRoutingModule,
+    StoreModule.forRoot({ client: manageClients }),
+    FormsModule,
+    ReactiveFormsModule
   ],
-  bootstrap: [ClientsComponent,
-    ClientListComponent,
-    ClientDetailsComponent,
-    AccountsComponent,
-    TransactionsComponent,]
+  providers: [DatePipe,interceptorProvider],
+  bootstrap: [AccountsComponent,ClientDetailsComponent]
 })
 export class ClientsModule { }

@@ -2,13 +2,20 @@ package com.reto.backend.controller;
 
 import com.reto.backend.entity.Account;
 import com.reto.backend.entity.Client;
+import com.reto.backend.security.entity.IUserDetails;
+import com.reto.backend.security.jwt.JwtProvider;
+import com.reto.backend.security.payload.request.JwtDTO;
 import com.reto.backend.service.AccountService;
 import com.reto.backend.service.ClientService;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
@@ -27,8 +34,16 @@ public class ClientController {
     ClientService clientService;
     @Autowired
     AccountService accountService;
-    String admin = "admin";
+    @Autowired
+    JwtProvider jwtProvider;
+
+    
+    String admin = " ";
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
+
+    
+
+    
 
     public boolean validateEmail(String email) {
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
@@ -47,7 +62,12 @@ public class ClientController {
 
     @GetMapping
     public ResponseEntity<List<Client>> getClients() {
-        return new ResponseEntity<List<Client>>(clientService.getAllClients(), HttpStatus.OK);
+        if (!clientService.getAllClients().isEmpty()) {
+            return new ResponseEntity<List<Client>>(clientService.getAllClients(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<List<Client>>(HttpStatus.NOT_FOUND);
+        }
+
     }
 
     @GetMapping("{id}")
@@ -58,8 +78,10 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<Client> createClient(@RequestBody Client client) {
-
+    public ResponseEntity<Client> createClient(@RequestBody Client client,HttpServletRequest request) {
+        String jwtToken = request.getHeader("Authorization").replace("Bearer ", "");
+        String userName= jwtProvider.getUserNameFromToken(jwtToken);
+        this.admin=userName;
         if (validateEmail(client.getEmail()) && isAdult(client.getBirthdate())) {
             client.setUserCreate(admin);
             client.setUserEdit(admin);
@@ -71,7 +93,10 @@ public class ClientController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable("id") long id, @RequestBody Client client) {
+    public ResponseEntity<Client> updateClient(@PathVariable("id") long id, @RequestBody Client client,HttpServletRequest request) {
+        String jwtToken = request.getHeader("Authorization").replace("Bearer ", "");
+        String userName= jwtProvider.getUserNameFromToken(jwtToken);
+        this.admin=userName;
         Optional<Client> clientData = clientService.getClientById(id);
         if (clientData.isPresent()) {
             Date editDate = Date.from(Instant.now());
@@ -84,12 +109,12 @@ public class ClientController {
             clientAux.setIdentificationType(client.getIdentificationType());
             clientAux.setEditDate(editDate);
             clientAux.setUserEdit(admin);
-            if(isAdult(clientAux.getBirthdate())){
+            if (isAdult(clientAux.getBirthdate())) {
                 return new ResponseEntity<>(clientService.createClient(clientAux), HttpStatus.OK);
-            }else{
-                return new ResponseEntity<>(clientAux, HttpStatus.BAD_REQUEST);
+            } else {
+                return new ResponseEntity<>(clientAux, HttpStatus.NOT_ACCEPTABLE);
             }
-            
+
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -106,7 +131,8 @@ public class ClientController {
                 verification++;
             }
         }
-        if (verification < 1 && clientService.deleteClientById(id)) {
+        if (verification == accounts.size()) {
+            clientService.deleteClientById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);

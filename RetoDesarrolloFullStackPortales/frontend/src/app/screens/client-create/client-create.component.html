@@ -1,0 +1,94 @@
+<div class="container-fluid px-4">
+  <div class="container">
+    <div class="position-relative d-flex">
+    
+          <div class="shadow rounded p-3">
+            <div
+              *ngIf="showAlert"
+              type="success"
+              class="alert alert-success"
+              role="alert"
+            >
+              <i class="bi bi-check-circle-fill"></i> Cliente Creado
+            </div>
+            <form [formGroup]="clientForm">
+              <div class="mb-3">
+                <label class="form-label" for="identificationType">Type</label>
+
+                <select
+                  class="form-select"
+                  aria-label="Default select example"
+                  formControlName="identificationType"
+                  name="identificationType"
+                >
+                  <option value="msg">Seleccione una opcion</option>
+                  <option value="NIT">NIT</option>
+                  <option value="CC">Cedula ciudadania</option>
+                  <option value="PASSPORT">Pasaporte</option>
+                  <option value="T.I">Tarjeta Identidad</option>
+                  <option value="CE">Cedula Extranjeria</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="identification"
+                  >Identification</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="identification"
+                  formControlName="identification"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="firstName">First Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="firstName"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="lastName">Last Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="lastName"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="email">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  formControlName="email"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="birthdate">Birthdate</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  formControlName="birthdate"
+                />
+              </div>
+            </form>
+
+            <div
+              *ngIf="errorMessage"
+              type="danger"
+              class="alert alert-danger mt-3 mb-3"
+              role="alert"
+            >
+              <i class="bi bi-exclamation-square-fill"></i> Algo Salio mal
+            </div>
+
+            <button (click)="saveClient()" class="btn btn-primary">
+              Submit
+            </button>
+          </div>
+        </div>
+        <div class=""></div>
+      </div>
+    </div>
+

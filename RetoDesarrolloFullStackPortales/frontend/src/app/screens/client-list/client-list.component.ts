@@ -1,6 +1,7 @@
-import { createInjectableType } from '@angular/compiler';
 import { Component,OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Client } from 'src/app/models/client.model';
+import { ObjectState } from 'src/app/reducers/Object.state';
 import { ClientServiceService } from 'src/app/services/client-service.service';
 
 @Component({
@@ -8,27 +9,35 @@ import { ClientServiceService } from 'src/app/services/client-service.service';
   templateUrl: './client-list.component.html',
   styleUrls: ['./client-list.component.css']
 })
-
-
 export class ClientListComponent implements OnInit{
-   clients: Client[]=[];
-   displayedColumns: string[] = ['id', 'identificationType', 'identification', 'firstName','lastName','email','birthdate','creationDate','manage'];
-  constructor(private clientservice: ClientServiceService){}
-  
+  public clients: Client[]=[];
+  emptyAlert=true;
+  constructor(private clientservice: ClientServiceService,public store: Store<ObjectState>){}
+  message = '';
   ngOnInit(): void {
-    this.retrieveClient();
+   this.retrieveClient();
   }
-
-
+  
   retrieveClient():void{
     this.clientservice.getAll().subscribe(
      {
       next:(data)=>{
-        
         this.clients=data;
+        this.emptyAlert=false;
+      }, error: (e) => {
+        if(e.status==404){
+          this.emptyAlert=true;
+        }
       }
      }
     );
   }
 
+
+  manageClient(item:Client){
+    this.store.dispatch({
+      type: 'MANAGE_CLIENT',
+      payload: item
+    })
+  }
 }
