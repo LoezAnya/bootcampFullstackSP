@@ -1,6 +1,7 @@
 <div class="container">
   <div class="shadow rounded p-3 d-flex flex-column">
     <h1>Productos</h1>
+
     <div
       *ngIf="createdAlert"
       type="success"
@@ -12,7 +13,7 @@
 
     <div class="text-start py-3">
       <button
-        class="btn btn-primary"
+        class="btn btn-warning"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#collapseExample"
@@ -329,45 +330,28 @@
       </div>
 
       <!-- transactiones modal end-->
-      <div class="card border-primary mb-3" style="width: auto">
-        <div class="card card-body">
-          <div class="card-header border-primary">
-            <div *ngIf="account.account_type == 'SAVING'"><h4>Ahorro</h4></div>
-            <div *ngIf="account.account_type == 'CHECKING'">
-              <h4>Corriente</h4>
-            </div>
+      <div class="card border-primary h-100 mt-4">
+        <div class="card-body">
+          <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action active disable" *ngIf="account.account_type == 'SAVING'">Ahorro</a>
+            <a href="#" class="list-group-item list-group-item-action active disable" *ngIf="account.account_type == 'CHECKING'">Corriente</a>
+            <a  class="list-group-item list-group-item-action disable">Numero de cuenta: {{account.account_number}}</a>
+            <a  class="list-group-item list-group-item-action disable">Saldo: {{account.balance+'' |  currency}}</a>
+            <a  class="list-group-item list-group-item-action disable"> Saldo disponible: {{account.available_balance+'' |  currency}}</a>
+            <a  class="list-group-item list-group-item-action disable" *ngIf="account.account_state == 'ACTIVE'">Estado: Activa</a>
+            <a  class="list-group-item list-group-item-action disable" *ngIf="account.account_state == 'INACTIVE'">Estado: Inactiva</a>
+            <a  class="list-group-item list-group-item-action disable" *ngIf="account.account_state == 'CANCELED'">Estado: Cancelada</a>
+            <a  class="list-group-item list-group-item-action disable">Fecha de creacion: {{account.creation_date}}</a>
+            <a  class="list-group-item list-group-item-action disable" *ngIf="account.extentGMF">GMF: Extenta</a>
+            <a  class="list-group-item list-group-item-action disable" *ngIf="!account.extentGMF">GMF: No extenta</a>
           </div>
-
-          <ul class="list-group">
-            <li class="list-group-item">
-              Numero de cuenta: {{account.account_number}}
-            </li>
-            <li class="list-group-item">
-              Saldo: {{account.balance+'' |  currency}}
-            </li>
-            <li class="list-group-item">
-              Saldo disponible: {{account.available_balance+'' |  currency}}
-            </li>
-            <li class="list-group-item">
-              <p *ngIf="account.account_state == 'ACTIVE'">Estado: Activa</p>
-              <p *ngIf="account.account_state == 'INACTIVE'">
-                Estado: Inactiva
-              </p>
-              <p *ngIf="account.account_state == 'CANCELED'">
-                Estado: Cancelada
-              </p>
-            </li>
-            <li class="list-group-item">
-              Fecha de creacion: {{account.creation_date}}
-            </li>
-          </ul>
           <div class="card-footer text-end">
             <div class="container">
               <div class="row row-cols-auto">
                 <div class="col m-1">
                   <button
                     type="button"
-                    class="btn btn-primary"
+                    class="btn btn-secondary"
                     data-bs-toggle="modal"
                     data-bs-target="#resumeModal"
                     (click)="retriveMovements(account)"
@@ -378,7 +362,7 @@
                 <div class="col m-1">
                   <button
                     type="button"
-                    class="btn btn-primary"
+                    class="btn btn-secondary"
                     data-bs-toggle="modal"
                     data-bs-target="#transactionModal"
                     (click)="setSender(account)"
@@ -389,7 +373,7 @@
                 <div class="col m-1">
                   <button
                     type="button"
-                    class="btn btn-info"
+                    class="btn btn-secondary"
                     (click)="changeState(account)"
                   >
                     Cambiar estado
@@ -408,7 +392,10 @@
             </div>
           </div>
         </div>
+        
       </div>
+
+      
     </div>
   </div>
 </div>

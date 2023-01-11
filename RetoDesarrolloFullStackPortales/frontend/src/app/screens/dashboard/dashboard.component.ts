@@ -17,11 +17,12 @@ export class DashboardComponent implements OnInit{
   }
 
   reloadPage() {
+    if(this.isLogged==true){}
     window.location.reload();
   }
 
   ngOnInit(): void {
-  
+    
     if(this.tokenservice.getToken()){
       
       this.isLogged=true;
@@ -32,8 +33,11 @@ export class DashboardComponent implements OnInit{
 
   onLogOut(){
     this.tokenservice.logout();
-    this.router.navigate(['/dashboard']);
+    
     window.location.reload();
+    setTimeout(() => {
+      this.router.navigate(['']);
+    }, 500);
   }
 
 

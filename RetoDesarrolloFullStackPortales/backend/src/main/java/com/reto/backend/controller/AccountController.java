@@ -71,6 +71,7 @@ public class AccountController {
             account.setAccount_number(accountNumberGenerator(account.getAccount_type()));
             account.setBalance(BigDecimal.valueOf(0));
             account.setUserCreate(admin);
+            account.setExtentGMF(false);
             account.setAvailable_balance(BigDecimal.valueOf(0));
             return new ResponseEntity<>(accountService.createAccount(account), HttpStatus.CREATED);
 

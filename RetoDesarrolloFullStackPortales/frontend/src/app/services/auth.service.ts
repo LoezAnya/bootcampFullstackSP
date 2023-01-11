@@ -12,7 +12,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  public signup(signuprequest:SignupRequest): Observable<any> {
+  public signup(signuprequest:any): Observable<any> {
     return this.http.post(`${baseUrl}/signup`, signuprequest);
   }
 

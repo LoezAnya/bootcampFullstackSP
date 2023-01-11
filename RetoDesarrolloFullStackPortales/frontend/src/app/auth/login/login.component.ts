@@ -46,9 +46,10 @@ export class LoginComponent implements OnInit {
         this.tokenservice.setUsername(res.username);
         this.tokenservice.setAthorities(res.authorities);
         this.roles = res.authorities;
-
-        this.router.navigate(['']);
-        
+        window.location.reload();        
+        setTimeout(() => {
+          this.router.navigate(['']);
+        }, 3000);
       
           
       }, error: (error) => {

@@ -3,7 +3,7 @@ export interface SignupRequest {
     username:string;
     email:string;
     password:string
-    authorities:string[];
+    roles:string[];
 
     // constructor(name:string,username:string,email:string,password:string){}
 }

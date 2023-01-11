@@ -31,7 +31,23 @@ public class TransactionController {
 
   @Autowired
   JwtProvider jwtProvider;
-
+public void makeGMF(Account account,Transaction transaction){
+  transaction.setDescription("GMF");
+  transaction.setId_sender_account(account.getAccount_number());
+  transaction.setAccount(account);
+  transaction.setTransaction_type("4 X 1000");
+  transaction.setMovement_type("debito");
+  transaction.setTransaction_value(BigDecimal.valueOf(0));
+  if(!account.getExtentGMF()){
+    BigDecimal transactionValue=transaction.getTransaction_value();
+    BigDecimal gmf=new BigDecimal("0.04");
+    BigDecimal discountGMF=transactionValue.multiply(gmf);
+    transaction.setTransaction_value(discountGMF);
+    account.setAvailable_balance(account.getAvailable_balance().subtract(discountGMF));
+  }
+  this.transactionService.createTransaction(transaction);
+  this.accountService.createAccount(account);
+}
   @GetMapping("/{accountId}")
   public ResponseEntity<List<Transaction>> getAllTransaction(
     @PathVariable(value = "accountId") Long id
