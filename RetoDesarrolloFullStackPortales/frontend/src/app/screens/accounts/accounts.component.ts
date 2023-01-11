@@ -32,7 +32,7 @@ export class AccountsComponent implements OnInit {
   accountForm: FormGroup = new FormGroup({
     id: new FormControl(Number),
     account_type: new FormControl(String),
-    account_number: new FormControl(String),
+    accountnumber: new FormControl(String),
     account_state: new FormControl(String),
     balance: new FormControl(Number),
     available_balance: new FormControl(Number),
@@ -71,7 +71,7 @@ export class AccountsComponent implements OnInit {
   setSender(accountTransaction: Account) {
     this.transacctionForm
       .get("id_sender_account")
-      ?.setValue(accountTransaction.account_number);
+      ?.setValue(accountTransaction.accountnumber);
   }
 
   setType(type: string) {

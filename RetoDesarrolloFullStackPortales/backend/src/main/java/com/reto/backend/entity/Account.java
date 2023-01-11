@@ -22,7 +22,7 @@ public class Account {
         SAVING, CHECKING
     }
 
-    private String account_number;
+    private String accountnumber;
     private State account_state;
 
     public enum State {
@@ -79,12 +79,12 @@ public class Account {
         this.account_type = account_type;
     }
 
-    public String getAccount_number() {
-        return account_number;
+    public String getAccountnumber() {
+        return accountnumber;
     }
 
-    public void setAccount_number(String account_number) {
-        this.account_number = account_number;
+    public void setAccountnumber(String account_number) {
+        this.accountnumber = account_number;
     }
 
     public State getAccount_state() {

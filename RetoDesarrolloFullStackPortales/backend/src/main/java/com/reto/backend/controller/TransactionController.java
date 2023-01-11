@@ -31,21 +31,24 @@ public class TransactionController {
 
   @Autowired
   JwtProvider jwtProvider;
-public void makeGMF(Account account,Transaction transaction){
-  transaction.setDescription("GMF");
-  transaction.setId_sender_account(account.getAccount_number());
-  transaction.setAccount(account);
-  transaction.setTransaction_type("4 X 1000");
-  transaction.setMovement_type("debito");
-  transaction.setTransaction_value(BigDecimal.valueOf(0));
-  if(!account.getExtentGMF()){
-    BigDecimal transactionValue=transaction.getTransaction_value();
-    BigDecimal gmf=new BigDecimal("0.04");
+public void makeGMF(Account account,Transaction sender){
+  Transaction transactionGMF=new Transaction();
+  transactionGMF.setDescription("GMF");
+  transactionGMF.setId_sender_account(account.getAccountnumber());
+  transactionGMF.setAccount(account);
+  transactionGMF.setTransaction_date(new Date());
+  transactionGMF.setTransaction_type("4 X 1000");
+  transactionGMF.setMovement_type("debito");
+  transactionGMF.setTransaction_value(BigDecimal.valueOf(0));
+  if(account.getExtentGMF()==false){
+    BigDecimal transactionValue=sender.getTransaction_value();
+    BigDecimal gmf=new BigDecimal(0.004);
     BigDecimal discountGMF=transactionValue.multiply(gmf);
-    transaction.setTransaction_value(discountGMF);
+    transactionGMF.setTransaction_value(discountGMF);
     account.setAvailable_balance(account.getAvailable_balance().subtract(discountGMF));
   }
-  this.transactionService.createTransaction(transaction);
+  transactionGMF.setAvailable_balance(account.getAvailable_balance());
+  this.transactionService.createTransaction(transactionGMF);
   this.accountService.createAccount(account);
 }
   @GetMapping("/{accountId}")
@@ -146,8 +149,11 @@ public void makeGMF(Account account,Transaction transaction){
               transaction.setAccount(account);
               transaction.setGmf(BigDecimal.valueOf(0));
               transaction.setMovement_type("debito");
+              
+              transactionService.createTransaction(transaction); 
+              makeGMF(account,transaction);             
               return new ResponseEntity<>(
-                transactionService.createTransaction(transaction),
+                transaction,
                 HttpStatus.CREATED
               );
             }
@@ -170,8 +176,11 @@ public void makeGMF(Account account,Transaction transaction){
               transaction.setAccount(account);
               transaction.setGmf(BigDecimal.valueOf(0));
               transaction.setMovement_type("debito");
+              
+              transactionService.createTransaction(transaction);
+              makeGMF(account,transaction);
               return new ResponseEntity<>(
-                transactionService.createTransaction(transaction),
+                transaction,
                 HttpStatus.CREATED
               );
             }
@@ -257,8 +266,11 @@ public void makeGMF(Account account,Transaction transaction){
               }
 
               transactionService.createTransaction(receiver);
+              
+              transactionService.createTransaction(sender);
+              makeGMF(accountSen,sender);
               return new ResponseEntity<>(
-                transactionService.createTransaction(sender),
+                sender,
                 HttpStatus.CREATED
               );
             }
@@ -317,8 +329,11 @@ public void makeGMF(Account account,Transaction transaction){
               }
 
               transactionService.createTransaction(receiver);
+              
+              transactionService.createTransaction(sender);
+              makeGMF(accountSen,sender);
               return new ResponseEntity<>(
-                transactionService.createTransaction(sender),
+                sender,
                 HttpStatus.CREATED
               );
             }

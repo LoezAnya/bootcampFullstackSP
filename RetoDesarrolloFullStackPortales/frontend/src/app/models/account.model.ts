@@ -1,7 +1,7 @@
 export class Account {
     id: Number;
     account_type: String;
-    account_number: String;
+    accountnumber: String;
     account_state: String;
     balance: Number;
     available_balance: Number;
@@ -14,7 +14,7 @@ export class Account {
     constructor(){
         this.id=new Number;
         this.account_type=new String;
-        this.account_number=new String;
+        this.accountnumber=new String;
         this.account_state=new String;
         this.balance=new Number;
         this.available_balance=new Number;

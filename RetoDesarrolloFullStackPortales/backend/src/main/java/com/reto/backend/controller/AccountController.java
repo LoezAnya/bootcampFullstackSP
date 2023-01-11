@@ -68,7 +68,7 @@ public class AccountController {
             Client client = clientOptional.get();
             account.setClient(client);
             account.setAccount_state(Account.State.ACTIVE);
-            account.setAccount_number(accountNumberGenerator(account.getAccount_type()));
+            account.setAccountnumber(accountNumberGenerator(account.getAccount_type()));
             account.setBalance(BigDecimal.valueOf(0));
             account.setUserCreate(admin);
             account.setExtentGMF(false);

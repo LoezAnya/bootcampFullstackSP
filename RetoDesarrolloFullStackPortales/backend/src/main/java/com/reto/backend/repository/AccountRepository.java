@@ -10,8 +10,12 @@ import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
+
     List<Account> findByClientId(Long id);
 
-    @Query(value = "SELECT * FROM ACCOUNTS WHERE ACCOUNT_NUMBER = ?1", nativeQuery = true)
-    Optional<Account> findByNumber(String number);
+    // @Query(value = "SELECT * FROM ACCOUNTS WHERE ACCOUNT_NUMBER = ?1", nativeQuery = true)
+    // Optional<Account> findByAccountnumber(String number);
+
+    Optional<Account> findByAccountnumber(String number);
+    
 }
