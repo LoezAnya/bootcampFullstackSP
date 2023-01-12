@@ -143,7 +143,7 @@
                         class="form-select"
                         aria-label="Default select example"
                         formControlName="{{i}}"
-                        name="role"
+                        name="{{i}}"
                       >
                         <option selected [selected]="'msg'" value="msg">
                           Select an option
@@ -153,6 +153,15 @@
                       </select>
                     </div>
                   </div>
+
+                  <!-- <select formControlName="roles">
+                    <option *ngFor="let role of singForm.get('roles').controls; let i = index" [value]="i">{{role.name}}</option>
+                </select> -->
+                
+                
+
+
+
                 </div>
 
                 <div class="form-group">

@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ClientListComponent } from './screens/client-list/client-list.component';
 import { interceptorProvider } from './interceptor/user-interceptor.service';
 import { ToastrModule } from 'ngx-toastr';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ToastrModule } from 'ngx-toastr';
     
   ],
   imports: [
+    ReactiveFormsModule,
     ToastrModule.forRoot(),    
     BrowserAnimationsModule,
     AppRoutingModule,
