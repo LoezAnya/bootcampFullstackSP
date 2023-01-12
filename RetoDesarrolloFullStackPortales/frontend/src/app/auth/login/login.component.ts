@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
       next: (res) => {
         this.isLogged = true;
         this.isLoggedFail = false;
-        this.toastr.success("Login exitoso");
+        this.toastr.success("Logged in");
         this.tokenservice.setToken(res.token);
         this.tokenservice.setUsername(res.username);
         this.tokenservice.setAthorities(res.authorities);

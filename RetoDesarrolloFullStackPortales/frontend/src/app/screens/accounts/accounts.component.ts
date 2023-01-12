@@ -109,7 +109,13 @@ export class AccountsComponent implements OnInit {
     
     this.accountService.extentGMF(this.id,item).subscribe({
       next:(res)=>{
-        this.toastr.info("Account excluded of GMF")
+
+        if (res.extentGMF) {
+          this.toastr.success("Account excluded of GMF");
+        }
+        if(!res.extentGMF){
+          this.toastr.info("Account no longer excluded of GMF")
+        }
         this.retrieveAccounts();
       },error:(e)=>{
         if (e.status == 406) {
