@@ -4,10 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { AboutComponent } from '../about/about.component';
-import { AccountsComponent } from '../accounts/accounts.component';
-import { ClientDetailsComponent } from '../client-details/client-details.component';
 import { FooterComponent } from '../footer/footer.component';
-import { TransactionsComponent } from '../transactions/transactions.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from 'src/app/auth/login/login.component';
 import { SignupComponent } from 'src/app/auth/signup/signup.component';
@@ -20,7 +17,8 @@ import { interceptorProvider } from 'src/app/interceptor/user-interceptor.servic
     AboutComponent,
     FooterComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+
   ],
   imports: [
     CommonModule,

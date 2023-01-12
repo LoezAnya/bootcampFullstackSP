@@ -1,19 +1,14 @@
-
-
-<div class="container-fluid text-white mt-5 ">
- 
+<div class="container-fluid text-white mt-5">
   <div class="container text-center">
     <div class="text-start my-3">
-      <button type="button" class="btn btn-primary" routerLink="add"><i class="bi bi-person-plus-fill" style="font-size: 1.5rem;" ></i></button>
+      <button type="button" class="btn btn-primary" routerLink="add">
+        <i class="bi bi-person-plus-fill" style="font-size: 1.5rem"></i>
+      </button>
     </div>
     <div class="justify-content-center shadow rounded p-4">
-      
-      
       <div class="table-responsive">
-        
         <table class="table rounded">
           <thead class="table-light">
-           
             <tr>
               <th scope="col">Id</th>
               <th scope="col">Identification Type</th>
@@ -29,7 +24,7 @@
           <tbody>
             <td colspan="9" *ngIf="emptyAlert">
               <div class="alert alert-danger" role="alert">
-                <i class="bi bi-exclamation-square-fill"></i> Lista Vacia
+                <i class="bi bi-exclamation-square-fill"></i> Empty list
               </div>
             </td>
             <tr *ngFor="let item of clients">
@@ -43,18 +38,12 @@
               <th>{{ item.creationDate }}</th>
               <th>
                 <button
-                  class="btn btn-warning"
+                  class="btn rounded-pill btn-warning"
                   routerLink="resume/{{item.id}}"
-                  
                 >
-                <i class="bi bi-person-vcard-fill"></i> Detalles
+                  <i class="bi bi-person-vcard-fill"></i> Resume
                 </button>
               </th>
-
-              <!-- <div class="p-2 d-flex justify-content-center">
-                  <button type="button" class="btn btn-info" (click)="addItem(item)">Agregar</button>
-                  <button [disabled]="item.email=='INACTIVE'"> boton de prueba</button>
-              </div> -->
             </tr>
           </tbody>
         </table>

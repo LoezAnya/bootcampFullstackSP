@@ -1,3 +1,4 @@
+
 .theme{
    
         background-color: rgb(106, 44, 163);
@@ -201,7 +202,7 @@
         margin-bottom: 0.5rem; }
       
       button {
-        border-radius: 0; }
+        border-radius: 5rem; }
       
       button:focus {
         outline: 1px dotted;

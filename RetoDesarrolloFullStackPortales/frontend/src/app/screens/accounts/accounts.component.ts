@@ -7,6 +7,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 import { Account } from "src/app/models/account.model";
 import { Client } from "src/app/models/client.model";
 import { Transaction } from "src/app/models/transaction.model";
@@ -61,7 +62,8 @@ export class AccountsComponent implements OnInit {
     private route: ActivatedRoute,
     private accountService: AccountService,
     private transactionService: TransactionService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: ToastrService
   ) {
     this.account = new Account();
     this.formArray = new FormArray([new FormGroup({})]);
@@ -85,6 +87,7 @@ export class AccountsComponent implements OnInit {
       .subscribe({
         next: (res) => {
           console.log(res);
+          this.toastr.success("Successful transaction");
           setTimeout(() => {
             this.transacctionForm.reset();
             this.retrieveAccounts();
@@ -93,13 +96,30 @@ export class AccountsComponent implements OnInit {
         error: (e) => {
           this.transacctionForm.reset();
           if (e.status == 404) {
-            this.errorAlert = true;
+            this.toastr.error("Transaction error");
+            // this.errorAlert = true;
           } else if (e.status == 406) {
-            this.rejectedAlert = true;
+            this.toastr.warning("Invalid transaction");
+            // this.rejectedAlert = true;
           }
         },
       });
   }
+  extentGMF(item: Account) {
+    
+    this.accountService.extentGMF(this.id,item).subscribe({
+      next:(res)=>{
+        this.toastr.info("Account excluded of GMF")
+        this.retrieveAccounts();
+      },error:(e)=>{
+        if (e.status == 406) {
+          this.toastr.warning("Just one account can be extent of GMF");
+        }
+      }
+      
+    })
+  }
+
 
   retriveMovements(item: Account) {
     console.log(item.id);
@@ -145,23 +165,23 @@ export class AccountsComponent implements OnInit {
   }
 
   cancelAccount(item: Account) {
-    const defaultState=item.account_state;
+    const defaultState = item.account_state;
     console.log(defaultState);
-    item.account_state="CANCELED";
+    item.account_state = "CANCELED";
     this.accountService.updateState(item.id, item).subscribe({
       next: (res) => {
-        
+
         console.log(res);
         this.retrieveAccounts();
 
       },
       error: (e) => {
         this.retrieveAccounts();
-        item.account_state=defaultState;
+        item.account_state = defaultState;
         if (e.status == 404) {
-          
-        }else if(e.status == 406){
-          
+
+        } else if (e.status == 406) {
+
           console.log(e.error)
         }
       },
@@ -175,8 +195,8 @@ export class AccountsComponent implements OnInit {
       .createAccount(this.id, this.accountForm.value)
       .subscribe({
         next: (res) => {
-          this.createdAlert = true;
-
+          // this.createdAlert = true;
+          this.toastr.success("Account created");
           this.emptyAlert = false;
 
           console.log(res);

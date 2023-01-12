@@ -22,6 +22,10 @@ export class AccountService {
   }
 
   updateState(id:any,data:any):Observable<any>{
-    return this.http.put(`${baseUrl}/${id}`, data);
+    return this.http.put(`${baseUrl}/state/${id}`, data);
+  }
+
+  extentGMF(id:any,data:any):Observable<any>{
+    return this.http.put(`${baseUrl}/gmf/${id}`, data);
   }
 }

@@ -38,7 +38,7 @@ public void makeGMF(Account account,Transaction sender){
   transactionGMF.setAccount(account);
   transactionGMF.setTransaction_date(new Date());
   transactionGMF.setTransaction_type("4 X 1000");
-  transactionGMF.setMovement_type("debito");
+  transactionGMF.setMovement_type("debit");
   transactionGMF.setTransaction_value(BigDecimal.valueOf(0));
   if(account.getExtentGMF()==false){
     BigDecimal transactionValue=sender.getTransaction_value();
@@ -75,7 +75,7 @@ public void makeGMF(Account account,Transaction sender){
     Transaction receiver = new Transaction();
     Date editDate = Date.from(Instant.now());
     if (
-      transaction.getTransaction_type().toLowerCase().equals("consignacion")
+      transaction.getTransaction_type().toLowerCase().equals("deposit")
     ) {
       Optional<Account> conAccount = accountService.getAccountByNumber(
         transaction.getId_sender_account()
@@ -101,7 +101,7 @@ public void makeGMF(Account account,Transaction sender){
                 );
                 transaction.setAccount(account);
                 transaction.setGmf(BigDecimal.valueOf(0));
-                transaction.setMovement_type("credito");
+                transaction.setMovement_type("credit");
                 return transactionService.createTransaction(transaction);
               })
               .orElseThrow(() ->
@@ -114,7 +114,7 @@ public void makeGMF(Account account,Transaction sender){
         }
       }
     }
-    if (transaction.getTransaction_type().toLowerCase().equals("retiro")) {
+    if (transaction.getTransaction_type().toLowerCase().equals("withdrawal")) {
       Optional<Account> opcAccount = accountService.getAccountByNumber(
         transaction.getId_sender_account()
       );
@@ -148,7 +148,7 @@ public void makeGMF(Account account,Transaction sender){
               transaction.setAvailable_balance(account.getAvailable_balance());
               transaction.setAccount(account);
               transaction.setGmf(BigDecimal.valueOf(0));
-              transaction.setMovement_type("debito");
+              transaction.setMovement_type("debit");
               
               transactionService.createTransaction(transaction); 
               makeGMF(account,transaction);             
@@ -175,7 +175,7 @@ public void makeGMF(Account account,Transaction sender){
               transaction.setAvailable_balance(account.getAvailable_balance());
               transaction.setAccount(account);
               transaction.setGmf(BigDecimal.valueOf(0));
-              transaction.setMovement_type("debito");
+              transaction.setMovement_type("debit");
               
               transactionService.createTransaction(transaction);
               makeGMF(account,transaction);
@@ -194,7 +194,7 @@ public void makeGMF(Account account,Transaction sender){
     }
 
     if (
-      transaction.getTransaction_type().toLowerCase().equals("transferencia")
+      transaction.getTransaction_type().toLowerCase().equals("transfer")
     ) {
       sender = transaction;
       Optional<Account> accountSender = accountService.getAccountByNumber(
@@ -228,7 +228,7 @@ public void makeGMF(Account account,Transaction sender){
               accountSen.setUser_edit(userName);
               sender.setAvailable_balance(accountSen.getAvailable_balance());
               sender.setGmf(BigDecimal.valueOf(0));
-              sender.setMovement_type("debito");
+              sender.setMovement_type("debit");
               sender.setAccount(accountSen);
               Optional<Account> accountReceptor = accountService.getAccountByNumber(
                 transaction.getId_receptor_account()
@@ -259,7 +259,7 @@ public void makeGMF(Account account,Transaction sender){
                   transaction.getId_receptor_account()
                 );
                 receiver.setTransaction_type(transaction.getTransaction_type());
-                receiver.setMovement_type("credito");
+                receiver.setMovement_type("credit");
                 receiver.setAccount(accountAuxRec);
               } else {
                 return new ResponseEntity<>(receiver, HttpStatus.NOT_FOUND);
@@ -291,7 +291,7 @@ public void makeGMF(Account account,Transaction sender){
               accountSen.setUser_edit(userName);
               sender.setAvailable_balance(accountSen.getAvailable_balance());
               sender.setGmf(BigDecimal.valueOf(0));
-              sender.setMovement_type("debito");
+              sender.setMovement_type("debit");
               sender.setAccount(accountSen);
               Optional<Account> accountReceptor = accountService.getAccountByNumber(
                 transaction.getId_receptor_account()
@@ -322,7 +322,7 @@ public void makeGMF(Account account,Transaction sender){
                   transaction.getId_receptor_account()
                 );
                 receiver.setTransaction_type(transaction.getTransaction_type());
-                receiver.setMovement_type("credito");
+                receiver.setMovement_type("credit");
                 receiver.setAccount(accountAuxRec);
               } else {
                 return new ResponseEntity<>(receiver, HttpStatus.NOT_FOUND);

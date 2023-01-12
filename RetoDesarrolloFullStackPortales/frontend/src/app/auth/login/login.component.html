@@ -1,59 +1,58 @@
-<div class="text-center" *ngIf="isLogged;">
-
-    <div
-    *ngIf="isLogged"
-    type="success"
-    class="alert alert-success"
-    role="alert"
-  >
-    <i class="bi bi-check-circle-fill"></i> Iniciaste sesion
+<div class="text-center" *ngIf="isLogged">
+  <div *ngIf="isLogged" type="success" class="alert alert-success" role="alert">
+    <i class="bi bi-check-circle-fill"></i> Logged in
   </div>
-
-
 </div>
 
-  
-
-
-
-<div class="container-fluid px-4"  *ngIf="!isLogged">
+<div class="container-fluid px-4" *ngIf="!isLogged">
   <div class="container">
     <div class="position-relative d-flex">
       <div class="shadow rounded p-3">
-        
-          <div class="container d-flex justify-content-center">
-              <div class="card">
-                  <div class="card-header text-center">
-                      <ul class="nav nav-tabs">
-                          <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" >Iniciar sesion</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link " routerLink="../signup">Resgistrarse</a>
-                          </li>
-          
-                        </ul>
-                  </div>
-                  <div class="card-body">
-                      <form [formGroup]="loginForm">
-        
-                          <div class="mb-3">
-                              <label for="username" class="form-label">Nombre de usuario</label>
-                              <input type="text" name="username" id="username" class="form-control" formControlName="username">
-                          </div>
-                          <div class="mb-3">
-                              <label for="password" class="form-label">password</label>
-                              <input type="password" name="password" id="password" class="form-control" formControlName="password">
-                          </div>
-                      </form>
-                      <button class="btn btn-outline-primary" (click)="onLogin()"><i class="bi bi-box-arrow-in-right"></i> iniciar sesion</button>
-                  </div>
-              </div>
+        <div class="container d-flex justify-content-center">
+          <div class="card">
+            <div class="card-header text-center">
+              <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page">Log in</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" routerLink="../signup">Sign up</a>
+                </li>
+              </ul>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="loginForm">
+                <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    class="form-control"
+                    formControlName="username"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    class="form-control"
+                    formControlName="password"
+                  />
+                </div>
+              </form>
+              <button
+                class="btn rounded-pill btn-outline-primary"
+                (click)="onLogin()"
+              >
+                <i class="bi bi-box-arrow-in-right"></i> Log in
+              </button>
+            </div>
           </div>
-        
+        </div>
       </div>
     </div>
   </div>
 </div>
-
-

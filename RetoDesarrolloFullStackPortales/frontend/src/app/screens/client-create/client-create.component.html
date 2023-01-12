@@ -9,7 +9,7 @@
               class="alert alert-success"
               role="alert"
             >
-              <i class="bi bi-check-circle-fill"></i> Cliente Creado
+              <i class="bi bi-check-circle-fill"></i> Client created
             </div>
             <form [formGroup]="clientForm">
               <div class="mb-3">
@@ -22,7 +22,7 @@
                   name="identificationType"
                 >
                   
-                  <option value="msg">Seleccione una opcion</option>
+                  <option value="msg">Select an option</option>
                   <option value="NIT">NIT</option>
                   <option value="CC">Cedula ciudadania</option>
                   <option value="PASSPORT">Pasaporte</option>
@@ -81,11 +81,11 @@
               class="alert alert-danger mt-3 mb-3"
               role="alert"
             >
-              <i class="bi bi-exclamation-square-fill"></i> Algo Salio mal
+              <i class="bi bi-exclamation-square-fill"></i> Something went wrong
             </div>
 
-            <button (click)="saveClient()" class="btn btn-primary">
-              Finalizar
+            <button (click)="saveClient()" class="btn rounded-pill btn-primary">
+              Accept
             </button>
           </div>
         </div>

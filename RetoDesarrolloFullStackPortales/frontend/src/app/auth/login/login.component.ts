@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 import { TokenService } from 'src/app/services/token.service';
 
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
     username: new FormControl(String, [Validators.required]),
     password: new FormControl(String, [Validators.required]),
   });
-  constructor(private tokenservice: TokenService, private authservice: AuthService, private router: Router, private fb: FormBuilder) {
+  constructor(private tokenservice: TokenService, private authservice: AuthService, private router: Router, private fb: FormBuilder,private toastr: ToastrService) {
 
   }
   ngOnInit(): void {
@@ -41,7 +42,7 @@ export class LoginComponent implements OnInit {
       next: (res) => {
         this.isLogged = true;
         this.isLoggedFail = false;
-
+        this.toastr.success("Login exitoso");
         this.tokenservice.setToken(res.token);
         this.tokenservice.setUsername(res.username);
         this.tokenservice.setAthorities(res.authorities);

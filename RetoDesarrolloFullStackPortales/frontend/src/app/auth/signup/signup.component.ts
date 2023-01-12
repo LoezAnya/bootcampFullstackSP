@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray, AbstractControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import Validation from './validation';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
@@ -15,7 +16,7 @@ export class SignupComponent implements OnInit {
 
   submitted = false;
 
-  constructor(private authservice: AuthService, private fb: FormBuilder) { }
+  constructor(private authservice: AuthService, private fb: FormBuilder,private toastr: ToastrService) { }
 
 
   singForm = new FormGroup({
@@ -45,16 +46,16 @@ export class SignupComponent implements OnInit {
       username: this.singForm.get('username')?.value,
       email: this.singForm.get('email')?.value,
       password: this.singForm.get('password')?.value,
-      roles: this.rolesOptions
-    }
+      roles: this.roles.value    }
     console.log(values)
     this.authservice.signup(values).subscribe({
       next: (res) => {
+        this.toastr.success(res);
         console.log(res);
       }, error: (error) => {
 
 
-        console.log(error);
+        console.log(error.error.message);
       }
     });
   }

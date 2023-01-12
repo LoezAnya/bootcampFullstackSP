@@ -1,6 +1,6 @@
 <div class="container">
   <div class="shadow rounded p-3 d-flex flex-column">
-    <h1>Productos</h1>
+    <h1>Products</h1>
 
     <div
       *ngIf="createdAlert"
@@ -8,19 +8,19 @@
       class="alert alert-success"
       role="alert"
     >
-    <i class="bi bi-check-circle-fill"></i> Cuenta Creada
+    <i class="bi bi-check-circle-fill"></i> Account created
     </div>
 
     <div class="text-start py-3">
       <button
-        class="btn btn-warning"
+        class="btn rounded-pill btn-warning"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target="#collapseExample"
         aria-controls="collapseExample"
         aria-expanded="false"
       >
-        <h5><i class="bi bi-piggy-bank-fill"></i> Abrir Producto</h5>
+        <h5><i class="bi bi-piggy-bank-fill"></i> Open Product</h5>
       </button>
     </div>
 
@@ -28,7 +28,7 @@
       <div class="card card-body">
         <form [formGroup]="accountForm">
           <div class="mb-3">
-            <label class="form-label" for="account_type">Tipo</label>
+            <label class="form-label" for="account_type">Type</label>
 
             <select
               class="form-select"
@@ -36,9 +36,9 @@
               formControlName="account_type"
               name="account_type"
             >
-              <option value="msg">Seleccione una opcion</option>
-              <option value="SAVING">Ahorro</option>
-              <option value="CHECKING">Corriente</option>
+              <option value="msg">Select an option</option>
+              <option value="SAVING">Saving</option>
+              <option value="CHECKING">Checking</option>
             </select>
           </div>
         </form>
@@ -46,9 +46,9 @@
           <button
             (click)="createAccount()"
             type="button"
-            class="btn btn-primary"
+            class="btn rounded-pill btn-primary"
           >
-            Crear
+            Create
           </button>
         </div>
       </div>
@@ -57,8 +57,7 @@
       <div class="card" style="width: auto">
         <div class="card card-body">
           <div class="alert alert-danger" role="alert">
-            <i class="bi bi-exclamation-octagon-fill"></i> Usted no tiene
-            cuentas
+            <i class="bi bi-exclamation-octagon-fill"></i> You don't have any accounts.
           </div>
         </div>
       </div>
@@ -75,7 +74,7 @@
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="resumeModal">Movimientos</h1>
+              <h1 class="modal-title fs-5" id="resumeModal">Activities</h1>
               <button
                 type="button"
                 class="btn-close"
@@ -88,12 +87,12 @@
                 <table class="table table-sm text-center">
                   <thead>
                     <tr>
-                      <th>Fecha</th>
-                      <th>Descripcion</th>
-                      <th>Movimiento Financiero</th>
-                      <th>Tipo de Transaccion</th>
-                      <th>Valor</th>
-                      <th>Saldo disponible</th>
+                      <th>Date</th>
+                      <th>Description</th>
+                      <th>Movement type</th>
+                      <th>Transaction type</th>
+                      <th>Value</th>
+                      <th>Available balance</th>
                     </tr>
                   </thead>
                   <tbody class="table-light">
@@ -112,8 +111,7 @@
                 <div class="card" style="width: auto">
                   <div class="card card-body">
                     <div class="alert alert-danger" role="alert">
-                      <i class="bi bi-exclamation-octagon-fill"></i> No hay
-                      Movientos disponibles
+                      <i class="bi bi-exclamation-octagon-fill"></i> No transactions yet.
                     </div>
                   </div>
                 </div>
@@ -122,7 +120,7 @@
             <div class="modal-footer">
               <button
                 type="button"
-                class="btn btn-danger"
+                class="btn rounded-pill btn-danger"
                 data-bs-dismiss="modal"
               >
                 Close
@@ -146,7 +144,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="transactionModal">
-                Transacciones
+                Transactions
               </h1>
               <button
                 type="button"
@@ -162,8 +160,8 @@
                     <div class="row row-cols-1 row-cols-sm-3">
                       <div class="col">
                         <button
-                          class="btn btn-warning mb-3"
-                          (click)="setType('Consignacion')"
+                          class="btn rounded-pill btn-warning mb-3"
+                          (click)="setType('Deposit')"
                           type="button"
                           data-toggle="collapse"
                           data-target="#consignacion"
@@ -171,13 +169,13 @@
                           aria-controls="consignacion"
                         >
                           <i class="bi bi-arrow-up-square-fill"></i>
-                          Consignacion
+                          Deposit
                         </button>
                       </div>
                       <div class="col">
                         <button
-                          class="btn btn-warning mb-3"
-                          (click)="setType('Transferencia')"
+                          class="btn rounded-pill btn-warning mb-3"
+                          (click)="setType('Transfer')"
                           type="button"
                           data-toggle="collapse"
                           data-target="#transferencia"
@@ -185,20 +183,20 @@
                           aria-controls="transferencia"
                         >
                           <i class="bi bi-arrow-left-right"></i>
-                          Transferencia
+                          Transfer
                         </button>
                       </div>
                       <div class="col">
                         <button
-                          class="btn btn-warning"
-                          (click)="setType('Retiro')"
+                          class="btn rounded-pill btn-warning"
+                          (click)="setType('Withdrawal')"
                           type="button"
                           data-toggle="collapse"
                           data-target="#retiro"
                           aria-expanded="false"
                           aria-controls="retiro"
                         >
-                          <i class="bi bi-arrow-down-square-fill"></i> Retirar
+                          <i class="bi bi-arrow-down-square-fill"></i> Withdrawal
                         </button>
                       </div>
                     </div>
@@ -208,7 +206,7 @@
                     <div class="card card-body">
                       <div class="mb-3">
                         <label for="transaction_value" class="form-label"
-                          >Cantidad</label
+                          >Value</label
                         >
                         <input
                           type="number"
@@ -221,7 +219,7 @@
                       </div>
                       <div class="mb-3">
                         <label for="description" class="form-label"
-                          >Descripcion</label
+                          >Description</label
                         >
                         <textarea
                           class="form-control"
@@ -231,14 +229,23 @@
                           name="description"
                         ></textarea>
                       </div>
+                      <button
+                      data-bs-dismiss="modal"
+                      type="button"
+                      (click)="makeTransaction()"
+                      class="btn rounded-pill btn-primary mt-3"
+                    >
+                      Accept
+                    </button>
                     </div>
+                   
                   </div>
 
                   <div class="collapse" id="transferencia">
                     <div class="card card-body">
                       <div class="mb-3">
                         <label for="id_receptor_account" class="form-label"
-                          >Numero de cuenta
+                          >Account number
                         </label>
                         <input
                           class="form-control"
@@ -250,7 +257,7 @@
                       </div>
                       <div class="mb-3">
                         <label for="transaction_value" class="form-label"
-                          >Cantidad a transferir</label
+                          >Value</label
                         >
                         <input
                           type="number"
@@ -263,7 +270,7 @@
                       </div>
                       <div class="mb-3">
                         <label for="description" class="form-label"
-                          >Descripcion</label
+                          >Description</label
                         >
                         <textarea
                           class="form-control"
@@ -273,14 +280,23 @@
                           name="description"
                         ></textarea>
                       </div>
+                      <button
+                    data-bs-dismiss="modal"
+                    type="button"
+                    (click)="makeTransaction()"
+                    class="btn rounded-pill btn-primary mt-3"
+                  >
+                    Accept
+                  </button>
                     </div>
+                    
                   </div>
 
                   <div class="collapse" id="retiro">
                     <div class="card card-body">
                       <div class="mb-3">
                         <label for="transaction_value" class="form-label"
-                          >Cantidad</label
+                          >Value</label
                         >
                         <input
                           type="number"
@@ -293,7 +309,7 @@
                       </div>
                       <div class="mb-3">
                         <label for="description" class="form-label"
-                          >Descripcion</label
+                          >Description</label
                         >
                         <textarea
                           class="form-control"
@@ -303,27 +319,31 @@
                           name="description"
                         ></textarea>
                       </div>
+                      <button
+                    data-bs-dismiss="modal"
+                    type="button"
+                    (click)="makeTransaction()"
+                    class="btn rounded-pill btn-primary mt-3"
+                  >
+                    Accept
+                  </button>
                     </div>
+                    
                   </div>
+                 
                 </div>
               </form>
+
             </div>
             <div class="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary"
+                class="btn rounded-pill btn-secondary"
                 data-bs-dismiss="modal"
               >
                 Close
               </button>
-              <button
-                data-bs-dismiss="modal"
-                type="button"
-                (click)="makeTransaction()"
-                class="btn btn-primary"
-              >
-                Finalizar
-              </button>
+              
             </div>
           </div>
         </div>
@@ -331,62 +351,73 @@
 
       <!-- transactiones modal end-->
       <div class="card border-primary h-100 mt-4">
+
         <div class="card-body">
           <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action active disable" *ngIf="account.account_type == 'SAVING'">Ahorro</a>
-            <a href="#" class="list-group-item list-group-item-action active disable" *ngIf="account.account_type == 'CHECKING'">Corriente</a>
-            <a  class="list-group-item list-group-item-action disable">Numero de cuenta: {{account.accountnumber}}</a>
-            <a  class="list-group-item list-group-item-action disable">Saldo: {{account.balance+'' |  currency}}</a>
-            <a  class="list-group-item list-group-item-action disable"> Saldo disponible: {{account.available_balance+'' |  currency}}</a>
-            <a  class="list-group-item list-group-item-action disable" *ngIf="account.account_state == 'ACTIVE'">Estado: Activa</a>
-            <a  class="list-group-item list-group-item-action disable" *ngIf="account.account_state == 'INACTIVE'">Estado: Inactiva</a>
-            <a  class="list-group-item list-group-item-action disable" *ngIf="account.account_state == 'CANCELED'">Estado: Cancelada</a>
-            <a  class="list-group-item list-group-item-action disable">Fecha de creacion: {{account.creation_date}}</a>
-            <a  class="list-group-item list-group-item-action disable" *ngIf="account.extentGMF">GMF: Extenta</a>
-            <a  class="list-group-item list-group-item-action disable" *ngIf="!account.extentGMF">GMF: No extenta</a>
+            <a href="#" class="list-group-item list-group-item-action active disable" *ngIf="account.account_type == 'SAVING'">Saving</a>
+            <a href="#" class="list-group-item list-group-item-action active disable" *ngIf="account.account_type == 'CHECKING'">Checking</a>
+
+            <a  class="list-group-item list-group-item-action disable">Account number: {{account.accountnumber}}</a>
+            <a  class="list-group-item list-group-item-action disable">Balance: {{account.balance+'' |  currency}}</a>
+            <a  class="list-group-item list-group-item-action disable"> Available balance: {{account.available_balance+'' |  currency}}</a>
+            <a  class="list-group-item list-group-item-action disable" *ngIf="account.account_state == 'ACTIVE'">State: Active</a>
+            <a  class="list-group-item list-group-item-action disable" *ngIf="account.account_state == 'INACTIVE'">State: Inactive</a>
+            <a  class="list-group-item list-group-item-action disable" *ngIf="account.account_state == 'CANCELED'">State: Canceled</a>
+            <a  class="list-group-item list-group-item-action disable">Creation date: {{account.creation_date}}</a>
+            <a  class="list-group-item list-group-item-action disable" *ngIf="account.extentGMF">GMF: Extent</a>
+            <a  class="list-group-item list-group-item-action disable" *ngIf="!account.extentGMF">GMF: Not Extent</a>
           </div>
           <div class="card-footer text-end">
             <div class="container">
               <div class="row row-cols-auto">
-                <div class="col m-1">
+                <div class="col mr-1 mt-1">
                   <button
                     type="button"
-                    class="btn btn-secondary"
+                    class="btn-sm rounded-pill btn-secondary"
                     data-bs-toggle="modal"
                     data-bs-target="#resumeModal"
                     (click)="retriveMovements(account)"
-                  >
-                    Estado
+                  ><i class="bi bi-bank2"></i> 
+                    Activities
                   </button>
                 </div>
-                <div class="col m-1">
+                <div class="col mr-1 mt-1">
                   <button
                     type="button"
-                    class="btn btn-secondary"
+                    class="btn-sm rounded-pill btn-secondary"
                     data-bs-toggle="modal"
                     data-bs-target="#transactionModal"
                     (click)="setSender(account)"
-                  >
-                    Transacciones
+                  ><i class="bi bi-cash-coin"></i> 
+                    Transactions
                   </button>
                 </div>
-                <div class="col m-1">
+                <div class="col mr-1 mt-1">
                   <button
                     type="button"
-                    class="btn btn-secondary"
+                    class="btn-sm rounded-pill btn-secondary"
                     (click)="changeState(account)"
-                  >
-                    Cambiar estado
+                  ><i class="bi bi-shuffle"></i> 
+                    Change state
                   </button>
                 </div>
-                <div class="col m-1">
+                <div class="col mr-1 mt-1">
                   <button
                     type="button"
-                    class="btn btn-danger"
+                    class="btn-sm rounded-pill btn-danger"
                     (click)="cancelAccount(account)"
-                  >
-                    Cancelar cuenta
+                  ><i class="bi bi-x-circle-fill"></i> 
+                    Cancel
                   </button>
+                </div>
+                <div class="col mr-1 mt-1">
+                  <button
+                  type="button"
+                  class="btn-sm rounded-pill btn-info"
+                  (click)="extentGMF(account)"
+                ><i class="bi bi-award-fill"></i> 
+                Extent
+                </button>
                 </div>
               </div>
             </div>
@@ -399,3 +430,5 @@
     </div>
   </div>
 </div>
+
+

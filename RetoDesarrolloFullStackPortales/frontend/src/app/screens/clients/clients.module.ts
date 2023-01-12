@@ -13,6 +13,7 @@ import { ClientCreateComponent } from '../client-create/client-create.component'
 import { interceptorProvider } from 'src/app/interceptor/user-interceptor.service';
 
 
+
 @NgModule({
   declarations: [
     ClientsComponent,
@@ -22,6 +23,7 @@ import { interceptorProvider } from 'src/app/interceptor/user-interceptor.servic
     ClientCreateComponent
   ],
   imports: [
+
     CommonModule,
     ClientsRoutingModule,
     StoreModule.forRoot({ client: manageClients }),

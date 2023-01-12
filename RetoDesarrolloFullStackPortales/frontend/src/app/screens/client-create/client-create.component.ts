@@ -6,6 +6,7 @@ import {
   FormControl,
   Validators,
 } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
 import { Client } from "src/app/models/client.model";
 import { ClientServiceService } from "src/app/services/client-service.service";
 
@@ -30,7 +31,7 @@ export class ClientCreateComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    public clientService: ClientServiceService,
+    public clientService: ClientServiceService,private toastr: ToastrService
     
   ) {
     
@@ -57,7 +58,8 @@ export class ClientCreateComponent implements OnInit {
   saveClient(): void {
     this.clientService.createClient(this.clientForm.value).subscribe({
       next: (res) => {
-        this.showAlert=true;
+        // this.showAlert=true;
+        this.toastr.success("Cliente creado con exito");
         setTimeout(() => {
           this.showAlert=false;
         }, 2000);
@@ -66,6 +68,7 @@ export class ClientCreateComponent implements OnInit {
         this.errorMessage =false;
       },
       error: (e) => {
+        this.toastr.error("Algo salió mal");
         this.errorMessage =true;
         setTimeout(() => {
           this.errorMessage=false;

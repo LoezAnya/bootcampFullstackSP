@@ -57,12 +57,12 @@ public class AccountController {
 
     }
 
-
     @PostMapping("{clientId}")
-    public ResponseEntity<Account> createAccount(@PathVariable(value = "clientId") Long clientId, @RequestBody Account account,HttpServletRequest request) {
+    public ResponseEntity<Account> createAccount(@PathVariable(value = "clientId") Long clientId,
+            @RequestBody Account account, HttpServletRequest request) {
         String jwtToken = request.getHeader("Authorization").replace("Bearer ", "");
-        String userName= jwtProvider.getUserNameFromToken(jwtToken);
-        this.admin=userName;
+        String userName = jwtProvider.getUserNameFromToken(jwtToken);
+        this.admin = userName;
         Optional<Client> clientOptional = clientService.getClientById(clientId);
         if (clientOptional.isPresent()) {
             Client client = clientOptional.get();
@@ -75,24 +75,24 @@ public class AccountController {
             account.setAvailable_balance(BigDecimal.valueOf(0));
             return new ResponseEntity<>(accountService.createAccount(account), HttpStatus.CREATED);
 
-
         }
         return new ResponseEntity<>(account, HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Account> changeState(@PathVariable(value = "id") Long id,@RequestBody Account account,HttpServletRequest request) {
+    @PutMapping("/state/{id}")
+    public ResponseEntity<Account> changeState(@PathVariable(value = "id") Long id, @RequestBody Account account,
+            HttpServletRequest request) {
         String jwtToken = request.getHeader("Authorization").replace("Bearer ", "");
-        String userName= jwtProvider.getUserNameFromToken(jwtToken);
-        this.admin=userName;
+        String userName = jwtProvider.getUserNameFromToken(jwtToken);
+        this.admin = userName;
         Account.State state = account.getAccount_state();
 
         Optional<Account> accountOptional = accountService.getAccountById(id);
-        
+
         if (accountOptional.isPresent()) {
-            
+
             Account account1 = accountOptional.get();
-            Account.State defaultState=account1.getAccount_state();
+            Account.State defaultState = account1.getAccount_state();
 
             account1.setUser_edit(admin);
             if (state.equals(Account.State.ACTIVE)) {
@@ -102,7 +102,7 @@ public class AccountController {
                 account1.setAccount_state(Account.State.ACTIVE);
                 return new ResponseEntity<>(accountService.createAccount(account1), HttpStatus.CREATED);
             } else if (state.equals(Account.State.CANCELED)) {
-                if (BigDecimal.valueOf(1).compareTo(account1.getBalance()) >0) {
+                if (BigDecimal.valueOf(1).compareTo(account1.getBalance()) > 0) {
                     account1.setAccount_state(Account.State.CANCELED);
                     return new ResponseEntity<>(accountService.createAccount(account1), HttpStatus.CREATED);
                 } else {
@@ -112,9 +112,41 @@ public class AccountController {
             }
         }
 
-
         return new ResponseEntity<>(account, HttpStatus.NOT_FOUND);
     }
 
+    @PutMapping("/gmf/{id}")
+    public ResponseEntity<Account> setGMF(@PathVariable(value = "id") Long id, @RequestBody Account account,
+            HttpServletRequest request) {
+        String jwtToken = request.getHeader("Authorization").replace("Bearer ", "");
+        String userName = jwtProvider.getUserNameFromToken(jwtToken);
+        this.admin = userName;
+        Optional<Client> clientOptional = clientService.getClientById(id);
+        List<Account> accounts = accountService.getAllAccountByClientId(id);
+
+        boolean accountNotGmf = accounts.stream().anyMatch(a -> a.getExtentGMF() && !a.getId().equals(account.getId()));
+        boolean accountWithGmf = accounts.stream().anyMatch(a -> a.getExtentGMF() && a.getId().equals(account.getId()));
+        if (accountNotGmf) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+        Client client = clientOptional.get();
+        if (accountWithGmf ) {            
+            account.setClient(client);
+            account.setExtentGMF(false);
+            accountService.createAccount(account);
+            return new ResponseEntity<>(account, HttpStatus.OK);
+        }
+
+        // if (accountWithGmf) {
+        //     account.setExtentGMF(false);
+        //     accountService.createAccount(account);
+        //     return new ResponseEntity<>(account, HttpStatus.OK);
+        // }
+        account.setClient(client);
+        account.setExtentGMF(true);
+        accountService.createAccount(account);
+
+        return new ResponseEntity<>(account, HttpStatus.OK);
+    }
 
 }
