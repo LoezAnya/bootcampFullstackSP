@@ -146,7 +146,7 @@ public class AccountController {
         account.setExtentGMF(true);
         accountService.createAccount(account);
 
-        return new ResponseEntity<>(account, HttpStatus.OK);
+        return new ResponseEntity<>(account, HttpStatus.CREATED);
     }
 
 }
