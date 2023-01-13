@@ -59,7 +59,7 @@ export class ClientCreateComponent implements OnInit {
     this.clientService.createClient(this.clientForm.value).subscribe({
       next: (res) => {
         // this.showAlert=true;
-        this.toastr.success("Cliente creado con exito");
+        this.toastr.success("Client created");
         setTimeout(() => {
           this.showAlert=false;
         }, 2000);
@@ -68,7 +68,7 @@ export class ClientCreateComponent implements OnInit {
         this.errorMessage =false;
       },
       error: (e) => {
-        this.toastr.error("Algo salió mal");
+        this.toastr.error("Something went wrong");
         this.errorMessage =true;
         setTimeout(() => {
           this.errorMessage=false;

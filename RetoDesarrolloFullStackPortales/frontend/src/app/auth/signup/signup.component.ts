@@ -63,8 +63,9 @@ export class SignupComponent implements OnInit {
       password: this.singForm.get('password')?.value,
       roles: this.roles.value
     }
+    console.log(values)
 
-    if (this.singForm.valid) {
+    
       this.authservice.signup(values).subscribe({
         next: (res) => {
           this.toastr.success("User registered");
@@ -75,7 +76,7 @@ export class SignupComponent implements OnInit {
 
         }
       });
-    }
+    
 
   }
 
